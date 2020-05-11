@@ -1,19 +1,19 @@
-SECRET={
-    'secret' : '8u*t9%4qqq@*7a4dxqi4jw-_xj)=b#&fp-@6&$ne)xi_%53lt#'
+SECRET = {
+    'secret': '8u*t9%4qqq@*7a4dxqi4jw-_xj)=b#&fp-@6&$ne)xi_%53lt#'
 }
 
 DATABASES = {
-	'default' : {
-		'ENGINE': 'django.db.backends.mysql',
-		'NAME': 'youtubemuzic_test',
-		'USER': 'root',
-		'PASSWORD': 'dptmzbdpf',
-		'HOST': 'localhost',
-		'PORT': '3306',
-		'OPTIONS': {'charset': 'utf8mb4'},
-		'TEST': {
-			'CHARSET': 'utf8mb4',
-			'COLLATION': 'utf8_general_ci'
-		}
-	}
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'youtubemuzic_test',
+        'USER': 'root',
+        'PASSWORD': 'dptmzbdpf',
+        'HOST': 'localhost',
+        'PORT': '3306',
+        'OPTIONS': {'charset': 'utf8mb4'},
+        'TEST': {
+            'CHARSET': 'utf8mb4',
+            'COLLATION': 'utf8_general_ci'
+        }
+    }
 }
