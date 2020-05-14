@@ -4,7 +4,6 @@ from django.db import models
 class Collection(models.Model):
     name      = models.CharField(max_length=50)
     thumbnail = models.ForeignKey('Thumbnail', on_delete=models.PROTECT)
-    attribute = models.ForeignKey('Attribute', on_delete=models.PROTECT)
     type      = models.ForeignKey('Type', on_delete=models.PROTECT)
 
     class Meta:
@@ -30,7 +29,8 @@ class Media(models.Model):
     artist     = models.ForeignKey('Artist', on_delete=models.PROTECT)
     thumbnail  = models.ForeignKey('Thumbnail', on_delete=models.PROTECT)
     type       = models.ForeignKey('Type', on_delete=models.PROTECT)
-    collection = models.ForeignKey('Collection', on_delete=models.PROTECT)
+    collection = models.ForeignKey('Collection', on_delete=models.SET_NULL, null=True)
+    playlist   = models.ForeignKey('Playlist', on_delete=models.SET_NULL, null=True)
 
     class Meta:
         db_table = 'medias'
@@ -54,7 +54,7 @@ class Type(models.Model):
 
 
 class Thumbnail(models.Model):
-    link = models.URLField(max_length = 2000, null = True)
+    url = models.URLField(max_length=2000)
 
     class Meta:
         db_table = 'thumbnails'
