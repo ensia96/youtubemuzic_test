@@ -1,3 +1,9 @@
-from django.test import TestCase
+from django.test import TestCase, Client
 
-# Create your tests here.
+
+class StreamViewTest(TestCase):
+    def test_get_success(self):
+        client = Client()
+        response = client.get('/music')
+
+        self.assertEqual(response.status_code, 200)
