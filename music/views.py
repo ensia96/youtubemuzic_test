@@ -14,10 +14,6 @@ class RangeFileWrapper(object):
         self.blksize = blksize
         self.remaining = length
 
-    def __close__(self):
-        if hasattr(self.filelike, 'close'):
-            self.filelike.close()
-
     def __iter__(self):
         return self
 

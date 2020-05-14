@@ -54,9 +54,6 @@ class StreamViewTest(TestCase):
             playlist=playlist
         ).save()
 
-    def tearDown(self):
-        Media.objects.all().delete()
-
     def test_get_success(self):
         client = Client()
         response = client.get('/music/1')

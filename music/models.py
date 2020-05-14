@@ -54,7 +54,7 @@ class Type(models.Model):
 
 
 class Thumbnail(models.Model):
-    url = models.URLField(max_length=2000)
+    url = models.CharField(max_length=2000)
 
     class Meta:
         db_table = 'thumbnails'
