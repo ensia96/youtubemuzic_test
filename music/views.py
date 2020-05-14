@@ -7,7 +7,7 @@ from pydub import AudioSegment
 
 
 class RangeFileWrapper(object):
-    def __init__(self, filelike, blksize, length = 0):
+    def __init__(self, filelike, blksize, length=0):
         self.filelike = filelike
         self.blksize = blksize
         self.remaining = length
@@ -44,7 +44,7 @@ class StreamView(View):
         size = os.path.getsize('roses.mp3')
         bytes_per_sec = int(size / playtime)
 
-        resp = StreamingHttpResponse(RangeFileWrapper(open('roses.mp3', 'rb+'), bytes_per_sec, size),
+        resp = StreamingHttpResponse(RangeFileWrapper(open('roses.mp3', 'rb+'), bytes_per_sec * 10, size),
                                      status=200, content_type='audio/mp3')
 
         return resp
