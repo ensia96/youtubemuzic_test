@@ -62,6 +62,6 @@ class StreamViewTest(TestCase):
 
     def test_get_404(self):
         client = Client()
-        response = client.get('music/56473')
+        response = client.get('/music/56473')
 
         self.assertEqual(response.status_code, 404)
