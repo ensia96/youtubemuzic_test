@@ -28,7 +28,7 @@ class GoogleSignInView(View):
 
             user = User.objects.get_or_create(google_id=google_id)
             token = jwt.encode(
-                {'id': user.id}, SECRET_KEY, 'HS256'
+                {'id': user[0].id}, SECRET_KEY, 'HS256'
             ).decode('utf-8')
 
             return JsonResponse({'token': token}, status=200)
