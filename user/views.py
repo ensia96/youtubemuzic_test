@@ -26,9 +26,9 @@ class GoogleSignInView(View):
                     token_data['sub'] != google_id):
                 return JsonResponse({'message': 'MODIFIED_TOKEN'}, status=401)
 
-            User.objects.get_or_create(google_id=google_id)
+            user = User.objects.get_or_create(google_id=google_id)
             token = jwt.encode(
-                {'id': google_id}, SECRET_KEY, 'HS256'
+                {'id': user.id}, SECRET_KEY, 'HS256'
             ).decode('utf-8')
 
             return JsonResponse({'token': token}, status=200)
