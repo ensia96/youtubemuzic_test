@@ -30,7 +30,6 @@ class Media(models.Model):
     url        = models.CharField(max_length=300)
     artist     = models.ForeignKey('Artist', on_delete=models.PROTECT)
     thumbnail  = models.ForeignKey('Thumbnail', on_delete=models.PROTECT)
-    type       = models.ForeignKey('Type', on_delete=models.PROTECT)
     collection = models.ForeignKey('Collection', on_delete=models.SET_NULL, null=True)
     playlist   = models.ForeignKey('Playlist', on_delete=models.SET_NULL, null=True)
 
