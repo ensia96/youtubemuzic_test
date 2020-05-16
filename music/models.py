@@ -4,18 +4,20 @@ from django.db import models
 class Collection(models.Model):
     name      = models.CharField(max_length=50)
     thumbnail = models.ForeignKey('Thumbnail', on_delete=models.PROTECT)
-    type      = models.ForeignKey('Type', on_delete=models.PROTECT)
+    type      = models.ForeignKey('Type', on_delete=models.PROTECT, null=True)
 
     class Meta:
         db_table = 'collections'
 
 
 class Playlist(models.Model):
-    name       = models.CharField(max_length=40)
-    artist     = models.ForeignKey('Artist', on_delete=models.PROTECT)
-    thumbnail  = models.ForeignKey('Thumbnail', on_delete=models.PROTECT)
-    type       = models.ForeignKey('Type', on_delete=models.PROTECT)
-    collection = models.ForeignKey('Collection', on_delete=models.PROTECT)
+    name        = models.CharField(max_length=40)
+    description = models.CharField(max_length=100)
+    year        = models.IntegerField()
+    artist      = models.ForeignKey('Artist', on_delete=models.PROTECT)
+    thumbnail   = models.ForeignKey('Thumbnail', on_delete=models.PROTECT)
+    type        = models.ForeignKey('Type', on_delete=models.PROTECT)
+    collection  = models.ForeignKey('Collection', on_delete=models.PROTECT)
 
     class Meta:
         db_table = 'playlists'
@@ -58,3 +60,10 @@ class Thumbnail(models.Model):
 
     class Meta:
         db_table = 'thumbnails'
+
+
+class Hotlist(models.Model):
+    title       = models.CharField(max_length=50)
+    thumbnail   = models.ForeignKey('Thumbnail', on_delete=models.PROTECT)
+    artist      = models.CharField(max_length=50)
+    views       = models.CharField(max_length=10)
