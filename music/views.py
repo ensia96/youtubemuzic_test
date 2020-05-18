@@ -90,9 +90,8 @@ class MainView(View):
 
 #        if user exists range_list=[1,6,2]
 
-
         if request.GET :
-            range_list = request.GET.getlist('coll')
+            range_list = request.GET.getlist('collection_id')
 
         collection = Collection.objects.prefetch_related('playlist_set')
 
@@ -139,7 +138,7 @@ class MainView(View):
             payload[
                 'range_list'
             ]=random.sample(
-                [3,4,8,10,12,15],
+                [3,4,8,10,12,15,16],
                 6
             )
 
