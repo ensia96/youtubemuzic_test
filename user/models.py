@@ -39,7 +39,7 @@ class RecentPlaylist(models.Model):
 
 class RecentMedia(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
-    playlist = models.ForeignKey(Playlist, on_delete=models.PROTECT)
+    media = models.ForeignKey(Media, on_delete=models.PROTECT)
     listened_at = models.DateTimeField(auto_now=True)
 
     class Meta:

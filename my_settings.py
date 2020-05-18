@@ -12,8 +12,7 @@ DATABASES = {
         'PORT': '3306',
         'OPTIONS': {'charset': 'utf8mb4'},
         'TEST': {
-            'CHARSET': 'utf8mb4',
-            # 'COLLATION': 'utf8_general_ci'
+            'MIRROR': 'default'
         }
     }
 }

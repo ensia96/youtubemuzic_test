@@ -58,7 +58,8 @@ class StreamView(View):
 
     def get(self, request, media_id):
 
-        audio_source  = get_object_or_404(Media,id=media_id).url
+        # audio_source  = get_object_or_404(Media,id=media_id).url
+        audio_source  = 'roses.mp3'
         audio         = AudioSegment.from_mp3(audio_source)
         playtime      = len(audio) / self.MILISECOND_TO_SECOND
         size          = os.path.getsize(audio_source)
