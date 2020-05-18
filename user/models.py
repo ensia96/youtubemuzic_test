@@ -29,7 +29,6 @@ class MediaStorage(models.Model):
         db_table = 'media_storages'
 
 
-
 class RecentPlaylist(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     playlist = models.ForeignKey(Playlist, on_delete=models.PROTECT)
@@ -38,10 +37,10 @@ class RecentPlaylist(models.Model):
         db_table = 'recent_playlists'
 
 
-
 class RecentMedia(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     playlist = models.ForeignKey(Playlist, on_delete=models.PROTECT)
+    listened_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = 'recent_medias'
@@ -62,4 +61,3 @@ class Subscribe(models.Model):
 
     class Meta:
         db_table = 'subscribes'
-
