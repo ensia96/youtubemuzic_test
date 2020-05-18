@@ -37,8 +37,8 @@ class GoogleSignInView(View):
             token = jwt.encode(
                 {'id': user.id}, SECRET_KEY, 'HS256'
             ).decode('utf-8')
-            # print(google_token)
-            # print(token)
+            print(google_token)
+            print(token)
             return JsonResponse({'token': token}, status=200)
 
         except KeyError:
@@ -54,12 +54,12 @@ class StorageView(View):
 
 class RecentMediaView(View):
     @login_required
-    def post(self, request, user):
+    def post(self, request, *args, **kwargs):
         try:
             media_id = json.loads(request.body)['media_id']
             print(media_id)
             media = Media.objects.get(id=media_id)
-            recent_media, created = RecentMedia.objects.get_or_create(user=user, media=media)
+            recent_media, created = RecentMedia.objects.get_or_create(user=kwargs['user'], media=media)
             if not created:
                 recent_media.save()
 
@@ -73,11 +73,12 @@ class RecentMediaView(View):
 
 class RecentPlaylistView(View):
     @login_required
-    def post(self, request, user):
+    def post(self, request, *args, **kwargs):
         try:
+            print(args)
             playlist_id = json.loads(request.body)['playlist_id']
             playlist = Playlist.objects.get(id=playlist_id)
-            recent_playlist, created = RecentPlaylist.objects.get_or_create(user=user, playlist=playlist)
+            recent_playlist, created = RecentPlaylist.objects.get_or_create(user=kwargs['user'], playlist=playlist)
             if not created:
                 recent_playlist.save()
 
@@ -91,4 +92,9 @@ class RecentPlaylistView(View):
 
     # @login_required
     # def get(self, request, user):
+    #     try:
+    #
+    #
+    #     except KeyError:
+    #         return HttpResponse(status=400)
 

@@ -10,6 +10,6 @@ from .views import (
 urlpatterns = [
     path('/signin', GoogleSignInView.as_view()),
     path('/storage', StorageView.as_view()),
-    path('/recent/media', RecentMediaView.as_view()),
-    path('/recent/playlist', RecentPlaylistView.as_view())
+    path('/recent/media/<int:media_id>', RecentMediaView.as_view()),
+    path('/recent/playlist/<int:playlist_id>', RecentPlaylistView.as_view())
 ]
