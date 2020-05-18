@@ -6,7 +6,15 @@ from django.http import HttpResponse, JsonResponse
 from django.views import View
 
 from youtubemuzic_test.settings import SECRET_KEY
-from .models import User
+from music.models import (
+    Media,
+    Playlist
+)
+from .models import (
+    User,
+    RecentMedia,
+    RecentPlaylist
+)
 from .utils import login_required
 
 
@@ -39,8 +47,30 @@ class GoogleSignInView(View):
 
 
 class StorageView(View):
-
     @login_required
     def get(self, request, user):
         print(user.id)
         return HttpResponse(status=200)
+
+
+class RecentMedia(View):
+    @login_required
+    def post(self, request, user):
+        try:
+            media_id = request.body['media_id']
+            media = Media.object.get(id=media_id)
+            recent_media, created = RecentMedia.object.get_or_create(user=user, media=media)
+            recent_media.save()
+            print(recent_media.user.id)
+            print(recent_media.media.id)
+            return HttpResponse(status=200)
+
+        except KeyError:
+            return HttpResponse(status=400)
+        except Media.DoesNotExist:
+            return HttpResponse(status=404)
+
+    @login_required
+    def get(self, request, user):
+        user.recent_media_set.all()
+
