@@ -1,8 +1,9 @@
 from django.db import models
 
 
+
 class Collection(models.Model):
-    name      = models.CharField(max_length=50)
+    name      = models.CharField(max_length=100)
     thumbnail = models.ForeignKey('Thumbnail', on_delete=models.PROTECT)
     type      = models.ForeignKey('Type', on_delete=models.PROTECT, null=True)
 
@@ -11,12 +12,12 @@ class Collection(models.Model):
 
 
 class Playlist(models.Model):
-    name        = models.CharField(max_length=40)
+    name        = models.CharField(max_length=100)
     description = models.CharField(max_length=100)
-    year        = models.IntegerField()
-    artist      = models.ForeignKey('Artist', on_delete=models.PROTECT)
+    year        = models.CharField(max_length=10)
+    artist      = models.CharField(max_length=100)
     thumbnail   = models.ForeignKey('Thumbnail', on_delete=models.PROTECT)
-    type        = models.ForeignKey('Type', on_delete=models.PROTECT)
+    type        = models.ForeignKey('Type', on_delete=models.PROTECT, null=True)
     collection  = models.ForeignKey('Collection', on_delete=models.PROTECT)
 
     class Meta:
@@ -24,12 +25,11 @@ class Playlist(models.Model):
 
 
 class Media(models.Model):
-    name       = models.CharField(max_length=100)
-    length     = models.TimeField()
-    views      = models.IntegerField()
-    url        = models.CharField(max_length=300)
-    artist     = models.ForeignKey('Artist', on_delete=models.PROTECT)
-    thumbnail  = models.ForeignKey('Thumbnail', on_delete=models.PROTECT)
+    name       = models.CharField(max_length=200)
+    length     = models.CharField(max_length=20)
+    album      = models.CharField(max_length=200)
+    artist     = models.ForeignKey('Artist', on_delete=models.PROTECT, null=True)
+    thumbnail  = models.ForeignKey('Thumbnail', on_delete=models.PROTECT, null=True)
     collection = models.ForeignKey('Collection', on_delete=models.SET_NULL, null=True)
     playlist   = models.ForeignKey('Playlist', on_delete=models.SET_NULL, null=True)
 
@@ -40,8 +40,7 @@ class Media(models.Model):
 class Artist(models.Model):
     name        = models.CharField(max_length=200)
     description = models.CharField(max_length=300, null=True)
-    url         = models.CharField(max_length=300)
-    thumbnail   = models.ForeignKey('Thumbnail', on_delete=models.PROTECT)
+    thumbnail   = models.ForeignKey('Thumbnail', on_delete=models.PROTECT, null=True)
 
     class Meta:
         db_table = 'artists'
@@ -66,3 +65,4 @@ class Hotlist(models.Model):
     thumbnail   = models.ForeignKey('Thumbnail', on_delete=models.PROTECT)
     artist      = models.CharField(max_length=50)
     views       = models.CharField(max_length=10)
+

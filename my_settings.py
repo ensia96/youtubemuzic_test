@@ -7,13 +7,13 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'youtubemuzic_test',
         'USER': 'root',
-        'PASSWORD': '',
+        'PASSWORD': 'dptmzbdpf',
         'HOST': 'localhost',
         'PORT': '3306',
         'OPTIONS': {'charset': 'utf8mb4'},
         'TEST': {
             'CHARSET': 'utf8mb4',
-            'COLLATION': 'utf8_general_ci'
+            'COLLATION': 'utf8mb4_general_ci'
         }
     }
 }
