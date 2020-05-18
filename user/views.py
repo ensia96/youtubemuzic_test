@@ -5,8 +5,9 @@ import jwt
 from django.http import HttpResponse, JsonResponse
 from django.views import View
 
-from .models import User
 from youtubemuzic_test.settings import SECRET_KEY
+from .models import User
+from .utils import login_required
 
 
 class GoogleSignInView(View):
@@ -16,7 +17,6 @@ class GoogleSignInView(View):
     def post(self, request):
         try:
             data = json.loads(request.body)
-            print(data)
             google_id = data['id']
             token = data['token']
 
@@ -30,8 +30,17 @@ class GoogleSignInView(View):
             token = jwt.encode(
                 {'id': user[0].id}, SECRET_KEY, 'HS256'
             ).decode('utf-8')
+            print(token)
 
             return JsonResponse({'token': token}, status=200)
 
         except KeyError:
             return HttpResponse(status=400)
+
+
+class StorageView(View):
+
+    @login_required
+    def get(self, request, user):
+        print(user.id)
+        return HttpResponse(status=200)
