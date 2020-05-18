@@ -16,7 +16,7 @@ def login_required(func):
             token = request.headers['token']
             user_id = jwt.decode(token, SECRET_KEY, algorithms='HS256')['id']
             user = get_object_or_404(User, id=user_id)
-            return func(self, request, args, user=user, kwargs=kwargs)
+            return func(self, request, user)
 
         except KeyError:
             print('loginerror')

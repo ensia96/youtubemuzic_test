@@ -54,18 +54,19 @@ class StorageView(View):
 
 class RecentMediaView(View):
     @login_required
-    def post(self, request, *args, **kwargs):
+    def post(self, request, user):
         try:
             media_id = json.loads(request.body)['media_id']
-            print(media_id)
             media = Media.objects.get(id=media_id)
-            recent_media, created = RecentMedia.objects.get_or_create(user=kwargs['user'], media=media)
+            recent_playlist, created = RecentMedia.objects.get_or_create(user=user, media=media)
             if not created:
-                recent_media.save()
+                recent_playlist.save()
 
             return HttpResponse(status=200)
 
         except KeyError:
+            return HttpResponse(status=400)
+        except ValueError:
             return HttpResponse(status=400)
         except Media.DoesNotExist:
             return HttpResponse(status=404)
@@ -73,28 +74,44 @@ class RecentMediaView(View):
 
 class RecentPlaylistView(View):
     @login_required
-    def post(self, request, *args, **kwargs):
+    def post(self, request, user):
         try:
-            print(args)
             playlist_id = json.loads(request.body)['playlist_id']
             playlist = Playlist.objects.get(id=playlist_id)
-            recent_playlist, created = RecentPlaylist.objects.get_or_create(user=kwargs['user'], playlist=playlist)
+            recent_playlist, created = RecentPlaylist.objects.get_or_create(user=user, playlist=playlist)
             if not created:
                 recent_playlist.save()
 
             return HttpResponse(status=200)
 
         except KeyError:
-            print('keyerror')
             return HttpResponse(status=400)
-        except Media.DoesNotExist:
+        except ValueError:
+            return HttpResponse(status=400)
+        except Playlist.DoesNotExist:
             return HttpResponse(status=404)
 
-    # @login_required
-    # def get(self, request, user):
-    #     try:
-    #
-    #
-    #     except KeyError:
-    #         return HttpResponse(status=400)
+    @login_required
+    def get(self, request, user):
+        try:
 
+            user = User.objects.prefetch_related('recentplaylist_set__playlist').get(id=user.id)
+            recent_playlists = user.recentplaylist_set.select_related(
+                'playlist__thumbnail', 'playlist__type').order_by('-id')[0:19]
+            response = {
+                'collection': "최근 재생",
+                'elements': [
+                    {
+                        'list_id': recent_playlist.playlist.id,
+                        'list_name': recent_playlist.playlist.name,
+                        'list_thumb': recent_playlist.playlist.thumbnail.url,
+                        'list_type': recent_playlist.playlist.type.name,
+                        'list_artist': recent_playlist.playlist.artist
+                    }
+                    for recent_playlist in recent_playlists]
+            }
+
+            return JsonResponse({"contents": response}, status=200)
+
+        except KeyError:
+            return HttpResponse(status=400)
