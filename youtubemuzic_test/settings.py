@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+ALGORITHM = my_settings.HASH_ALGORITHM
 
 # Application definition
 
@@ -78,6 +79,7 @@ WSGI_APPLICATION = 'youtubemuzic_test.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = my_settings.DATABASES
+
 
 
 # Password validation

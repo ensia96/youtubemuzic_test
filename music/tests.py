@@ -1,7 +1,9 @@
-from datetime import time
-
 from django.test import TestCase, Client
 
+class StreamViewTest(TestCase):
+    def test_get_success(self):
+        client = Client()
+        response = client.get('/music/1')
 from django.db.models import F
 
 from .models import *
@@ -120,6 +122,9 @@ class MainViewTest(TestCase):
             f'/music/main?collection_id={a}&collection_id={b}&collction_id={c}'
         )
 
+    def test_get_404(self):
+        client = Client()
+        response = client.get('/muzic/')
         def for_test():
 
             try:
