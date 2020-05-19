@@ -94,21 +94,28 @@ class RecentPlaylistView(View):
     @login_required
     def get(self, request, user):
         try:
-
             user = User.objects.prefetch_related('recentplaylist_set__playlist').get(id=user.id)
             recent_playlists = user.recentplaylist_set.select_related(
-                'playlist__thumbnail', 'playlist__type').order_by('-id')[0:19]
+                'playlist__thumbnail', 'playlist__type').order_by(
+                '-listened_at')[0:19]
+            element_list = list()
+
+            for recent_playlist in recent_playlists:
+                element = {
+                    'list_id': recent_playlist.playlist.id,
+                    'list_name': recent_playlist.playlist.name,
+                    'list_thumb': recent_playlist.playlist.thumbnail.url,
+                    'list_artist': recent_playlist.playlist.artist
+                }
+                if recent_playlist.playlist.type:
+                    element['list_type'] = recent_playlist.playlist.type.name
+                if not recent_playlist.playlist.type:
+                    element['list_type'] = 'Null'
+                element_list.append(element)
+
             response = {
                 'collection': "최근 재생",
-                'elements': [
-                    {
-                        'list_id': recent_playlist.playlist.id,
-                        'list_name': recent_playlist.playlist.name,
-                        'list_thumb': recent_playlist.playlist.thumbnail.url,
-                        'list_type': recent_playlist.playlist.type.name,
-                        'list_artist': recent_playlist.playlist.artist
-                    }
-                    for recent_playlist in recent_playlists]
+                'elements': element_list
             }
 
             return JsonResponse({"contents": response}, status=200)

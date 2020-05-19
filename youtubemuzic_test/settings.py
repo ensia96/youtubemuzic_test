@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+ALGORITHM = my_settings.HASH_ALGORITHM
 
 # Application definition
 

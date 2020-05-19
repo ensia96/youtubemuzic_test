@@ -32,6 +32,7 @@ class MediaStorage(models.Model):
 class RecentPlaylist(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     playlist = models.ForeignKey(Playlist, on_delete=models.PROTECT)
+    listened_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = 'recent_playlists'

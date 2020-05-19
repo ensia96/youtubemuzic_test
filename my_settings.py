@@ -16,3 +16,5 @@ DATABASES = {
         }
     }
 }
+
+HASH_ALGORITHM = 'HS256'

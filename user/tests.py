@@ -58,12 +58,102 @@ class RecentViewTest(TestCase):
     def tearDown(self):
         User.objects.get(google_id='2314324').delete()
 
-    def test_post_recent_media(self):
+    def test_post_recent_media_success(self):
         client = Client()
         data = {
             "media_id": 2
         }
-        token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MjV9.3QK2UMqDzxSwXReg0IbjeBiuoLVQsG57Tw818QlesSI"
-        response = client.post('/user/recent/media', data=data, token=token, content_type='application/json')
+        header = {'HTTP_authorization': self.jwt_token}
+        response = client.post('/user/recent/media', data=data, content_type='application/json', **header)
 
         self.assertEqual(response.status_code, 200)
+
+    def test_post_recent_playlist_success(self):
+        client = Client()
+        data = {
+            "playlist_id": 2
+        }
+        header = {'HTTP_authorization': self.jwt_token}
+        response = client.post('/user/recent/playlist', data=data, content_type='application/json', **header)
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_post_recent_media_login_failure(self):
+        client = Client()
+        data = {
+            "media_id": 2
+        }
+        header = {'HTTP_authorization': 'dfgdsfg'}
+        response = client.post('/user/recent/media', data=data, content_type='application/json', **header)
+
+        self.assertEqual(response.status_code, 400)
+
+    def test_post_recent_playlist_login_failure(self):
+        client = Client()
+        data = {
+            "media_id": 5
+        }
+        header = {'HTTP_authorization': 'sdfgdfgs'}
+        response = client.post('/user/recent/playlist', data=data, content_type='application/json', **header)
+
+        self.assertEqual(response.status_code, 400)
+
+    def test_post_recent_media_key_error(self):
+        client = Client()
+        data = {
+            "media": 2
+        }
+        header = {'HTTP_authorization': self.jwt_token}
+        response = client.post('/user/recent/media', data=data, content_type='application/json', **header)
+
+        self.assertEqual(response.status_code, 400)
+
+    def test_post_recent_playlist_key_error(self):
+        client = Client()
+        data = {
+            "list_id": 2
+        }
+        header = {'HTTP_authorization': self.jwt_token}
+        response = client.post('/user/recent/playlist', data=data, content_type='application/json', **header)
+
+        self.assertEqual(response.status_code, 400)
+
+    def test_post_recent_media_value_error(self):
+        client = Client()
+        data = {
+            "media": 'dsfsd'
+        }
+        header = {'HTTP_authorization': self.jwt_token}
+        response = client.post('/user/recent/media', data=data, content_type='application/json', **header)
+
+        self.assertEqual(response.status_code, 400)
+
+    def test_post_recent_playlist_value_error(self):
+        client = Client()
+        data = {
+            "media": '43534'
+        }
+        header = {'HTTP_authorization': self.jwt_token}
+        response = client.post('/user/recent/playlist', data=data, content_type='application/json', **header)
+
+        self.assertEqual(response.status_code, 400)
+
+    def test_post_recent_media_does_not_exist(self):
+        client = Client()
+        data = {
+            "media_id": 1275417598
+        }
+        header = {'HTTP_authorization': self.jwt_token}
+        response = client.post('/user/recent/media', data=data, content_type='application/json', **header)
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_post_recent_playlist_does_not_exist(self):
+        client = Client()
+        data = {
+            "playlist_id": 59432708942
+        }
+        header = {'HTTP_authorization': self.jwt_token}
+        response = client.post('/user/recent/playlist', data=data, content_type='application/json', **header)
+
+        self.assertEqual(response.status_code, 404)
